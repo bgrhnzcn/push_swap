@@ -6,13 +6,11 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:24:06 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/22 02:42:23 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:17:21 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "ft_printf.h"
-#include "stdlib.h"
+#include "push_swap.h"
 
 t_bool	int_comp(void *curr, void *next)
 {
@@ -39,11 +37,11 @@ int	parse_data(t_stack *stack, char **argv)
 	int	*value;
 
 	i = ft_strarrlen(argv) - 1;
-	while (i > 1)
+	while (i > 0)
 	{
 		if (!ft_strcheck(argv[i], ft_isdigit))
 			return (true);
-		value = malloc(sizeof(int));
+		value = malloc(sizeof (int));
 		if (value == NULL)
 			return (true);
 		*value = ft_atoi(argv[i]);
@@ -88,6 +86,9 @@ int	main(int argc, char **argv)
 	}
 	b = ft_stacknew();
 	ft_lstsort(&sorted->values, int_comp);
+	free(ft_stackpop(sorted));
 	ft_lstiter(sorted->values, printf_int);
-	(void)b;
+	ft_stackclear(sorted, free);
+	ft_stackclear(a, free);
+	ft_stackclear(b, free);
 }

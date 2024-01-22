@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:20:27 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/22 02:28:20 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/23 01:53:24 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,62 @@ int			ft_atoi(const char *str);
 int			ft_atoi_hex(const char *str);
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
+
 //-----------------------Lists------------------------
-void		ft_lstadd_back(t_list **lst, t_list *new);
-void		ft_lstadd_front(t_list **lst, t_list *new);
-t_list		*ft_lstlast(t_list *lst);
+
+/*Initializes new list struct in heap and set content to provided one.
+If you provide heap-allocated content,
+make sure all other contents are heap-allocated too.*/
 t_list		*ft_lstnew(void *content);
-int			ft_lstsize(t_list *lst);
-void		ft_lstdelone(t_list *lst, void (*del)(void *));
+/*Returns the last element of the list.
+If list is empty, returns NULL.*/
+t_list		*ft_lstlast(t_list *lst);
+/*Returns size of the list.*/
+size_t		ft_lstsize(t_list *lst);
+/*Adds provided element to end of the list.*/
+void		ft_lstadd_back(t_list **lst, t_list *new);
+/*Adds provided element to start of the list.*/
+void		ft_lstadd_front(t_list **lst, t_list *new);
+/*Swaps the given element's of the list if both of the elements exist.
+This function swaps only contents.*/
 void		ft_lstswap(t_list *first, t_list *second);
+/*Applies the (del) function to given element's content and free the element.
+If you have stack-allocated contents, use NULL, otherwise use free
+to prevent memory leaks, or your own specific implementation.*/
+void		ft_lstdelone(t_list *lst, void (*del)(void *));
+/*Applies the (del) function to every content in the list and free the lists.
+If you have stack-allocated contents, use NULL, otherwise use free
+to prevent memory leaks, or your own specific implementation.*/
 void		ft_lstclear(t_list **lst, void (*del)(void *));
+/*Iterates through the list and
+applies the (f) function to every element's content.*/
 void		ft_lstiter(t_list *lst, void (*f)(void *));
+/*Iterates through copy of the list and
+applies the (f) function to the every element's content.*/
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-void		ft_lstsort(t_list **list, t_bool (*comparator)(void *, void *));
+/*Sorts the list with Bubble-Sort. Define a (comp) function before use.
+The (comp) function is the condition for swap and
+must be defined uniquely for the type of content in the list.
+If you use condition con1 > con2, it will sort to increasing order.*/
+void		ft_lstsort(t_list **list, t_bool (*comp)(void *con1, void *con2));
+
 //------------------------Stacks----------------------------
+
+/*Initializes new stack struct in heap.
+Starting value of count is 0 and values list are NULL.
+Don't try to access before some contents are pushed.*/
 t_stack		*ft_stacknew(void);
+/*Pushes the provided content to stack.
+If you push heap-allocated content,
+make sure all other contents are heap-allocated too.*/
 void		ft_stackpush(t_stack *stack, void *content);
+/*Return the content address from the top of the stack and removes it.
+If stack is empty, returns NULL and write error message to STDERR.*/
 void		*ft_stackpop(t_stack *stack);
+/*Applies the (del) function to every member of stack and free stacks itself.
+If you have stack-allocated contents, use NULL, otherwise use free
+to prevent memory leaks, or your own specific implementation.*/
+void		ft_stackclear(t_stack *stack, void (*del)(void *));
 
 /*Gets numbers of strings inside of string arrays.
 String arrays must be null-ended.*/

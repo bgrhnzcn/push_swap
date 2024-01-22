@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:47:50 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2023/10/17 20:18:02 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:57:29 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*temp;
 
+	if (del == NULL)
+		return ;
 	if (lst == NULL || *lst == NULL)
 		return ;
 	while (*lst != NULL)

@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:34:50 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/22 02:01:24 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:54:12 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef union u_color
 # else
 
 typedef enum e_bool{
-	true = 1,
-	false = 0
+	false,
+	true
 }	t_bool;
 
 typedef union u_color

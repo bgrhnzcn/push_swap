@@ -6,13 +6,13 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:32:04 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2023/10/16 20:36:31 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/23 01:53:21 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+size_t	ft_lstsize(t_list *lst)
 {
 	int	i;
 

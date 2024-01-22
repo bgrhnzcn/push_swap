@@ -6,28 +6,33 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 01:49:38 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/22 02:43:23 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/23 01:51:08 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 //This function uses bubble-sort for now. Comparator gives true when current
 //node bigger (define in comparator for different types) than next node.
-void	ft_lstsort(t_list **list, t_bool (*comparator)(void *, void *))
+void	ft_lstsort(t_list **list, t_bool (*comp)(void *con1, void *con2))
 {
 	t_list	*curr;
 	int		i;
+	int		size;
+	int		counter;
 
 	curr = *list;
 	i = 0;
-	while (i < ft_lstsize(*list))
+	size = ft_lstsize(*list);
+	while (i < size)
 	{
-		while (curr->next != NULL)
+		curr = *list;
+		counter = 0;
+		while (counter < size - i - 1)
 		{
-			if (comparator(curr, curr->next))
+			if (comp(curr->content, curr->next->content))
 				ft_lstswap(curr, curr->next);
-			else
-				curr = curr->next;
+			curr = curr->next;
+			counter++;
 		}
 		i++;
 	}
