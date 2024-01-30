@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:34:50 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/22 22:54:12 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/30 03:08:16 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ typedef union u_color
 }	t_color;
 # else
 
-typedef enum e_bool{
-	false,
-	true
-}	t_bool;
-
 typedef union u_color
 {
 	struct
@@ -44,6 +39,11 @@ typedef union u_color
 	unsigned int	value;
 }	t_color;
 # endif
+
+typedef enum e_bool{
+	false,
+	true
+}	t_bool;
 
 typedef struct s_list
 {
