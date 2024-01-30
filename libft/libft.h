@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 20:20:27 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/23 01:53:24 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:30:39 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ The (comp) function is the condition for swap and
 must be defined uniquely for the type of content in the list.
 If you use condition con1 > con2, it will sort to increasing order.*/
 void		ft_lstsort(t_list **list, t_bool (*comp)(void *con1, void *con2));
+/*Returns true if lst is sorted. Define a (comp) function before use.
+The (comp) function is the condition for sorting and must be defined
+uniquely for the type of data of content in the list.
+If you use condition con1 > con2, it will check for increasing order.*/
+t_bool		ft_lstissorted(t_list *lst, t_bool (*comp)(void *con1, void *con2));
 
 //------------------------Stacks----------------------------
 

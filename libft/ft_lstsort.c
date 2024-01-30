@@ -6,12 +6,12 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 01:49:38 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/23 01:51:08 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:48:38 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-//This function uses bubble-sort for now. Comparator gives true when current
+//This function uses bubble-sort for now. Comparator gives true when con1
 //node bigger (define in comparator for different types) than next node.
 void	ft_lstsort(t_list **list, t_bool (*comp)(void *con1, void *con2))
 {

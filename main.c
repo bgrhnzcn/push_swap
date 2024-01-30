@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:24:06 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/23 02:17:21 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/01/30 23:40:43 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,16 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	b = ft_stacknew();
-	ft_lstsort(&sorted->values, int_comp);
+	int *p = malloc(sizeof(int));
+	*p = 10000;
 	free(ft_stackpop(sorted));
+	ft_stackpush(sorted, p);
+	ft_lstsort(&sorted->values, int_comp);
 	ft_lstiter(sorted->values, printf_int);
+	if (ft_lstissorted(sorted->values, int_comp))
+		ft_printf("Sirali");
+	else
+		ft_printf("sirasiz");
 	ft_stackclear(sorted, free);
 	ft_stackclear(a, free);
 	ft_stackclear(b, free);
