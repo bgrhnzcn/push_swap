@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pushes.c                                           :+:      :+:    :+:   */
+/*   iterators.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/21 22:10:54 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/03/18 15:26:15 by bgrhnzcn         ###   ########.fr       */
+/*   Created: 2024/03/18 17:58:08 by bgrhnzcn          #+#    #+#             */
+/*   Updated: 2024/03/18 17:58:43 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	pa(t_stack *b, t_stack *a)
+t_bool	int_comp(void *curr, void *next)
 {
-	if (b->count == 0)
-		return ;
-	ft_stackpush(a, ft_stackpop(b));
-	ft_printf("pa\n");
+	return (*((int *)curr) > *((int *)next));
 }
 
-void	pb(t_stack *a, t_stack *b)
+void	printf_int(void *integer)
 {
-	if (a->count == 0)
-		return ;
-	ft_stackpush(b, ft_stackpop(a));
-	ft_printf("pb\n");
+	ft_printf("%d\n", *((int *)integer));
 }

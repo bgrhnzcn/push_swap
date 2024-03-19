@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:48:45 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/21 23:07:08 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:25:30 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	rra(t_stack *a)
 	a->values = temp->next;
 }
 
-void	rra(t_stack *b)
+void	rrb(t_stack *b)
 {
 	t_list	*temp;
 
@@ -40,7 +40,7 @@ void	rra(t_stack *b)
 	b->values = temp->next;
 }
 
-void	rra(t_stack *a, t_stack *b)
+void	rrr(t_stack *a, t_stack *b)
 {
 	t_list	*temp;
 
