@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/03/19 19:43:27 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/03/27 00:45:55 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	check_duplicate(t_stack *stack, long value)
 	temp = stack->values;
 	while (temp != NULL)
 	{
-		if (*((long *)(temp->content)) == value)
+		if (((t_swap *)(temp->content))->nbr == value)
 			return (true);
 		temp = temp->next;
 	}
@@ -36,18 +36,18 @@ static int	check_duplicate(t_stack *stack, long value)
 static long	input(t_stack *stack, char **argv)
 {
 	long	i;
-	long	*value;
+	t_swap	*value;
 
 	i = ft_strarrlen(argv) - 1;
 	while (i >= 0)
 	{
 		if (!ft_strcheck(argv[i], check_character))
 			return (true);
-		value = malloc(sizeof (long));
+		value = malloc(sizeof (t_swap));
 		if (value == NULL)
 			return (true);
-		*value = ft_atoi(argv[i]);
-		if (check_duplicate(stack, *value))
+		value->nbr = ft_atoi(argv[i]);
+		if (check_duplicate(stack, value->nbr))
 		{
 			free(value);
 			return (true);

@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:26:48 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/03/18 18:27:05 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/03/26 23:41:08 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 
 # include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
+
+typedef struct s_swap
+{
+	long	nbr;
+	long	index;
+	long	cost;
+	t_bool	is_cheapest;
+	t_bool	is_above_median;
+	t_list	*target;
+}	t_swap;
 
 void	printf_int(void *integer);
 t_bool	int_comp(void *curr, void *next);

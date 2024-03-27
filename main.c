@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:24:06 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/03/19 19:43:30 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/03/27 05:00:53 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,114 @@ void	sort_three(t_stack *stack)
 		sa(stack);
 }
 
-t_list	*find_cheapest(t_stack *a, t_stack *b)
+void	do_operations_a(t_stack *a, t_stack *b)
+{
+	t_list	*temp;
+	t_swap	*swap;
+
+	temp = b->values;
+	while (temp != NULL)
+	{
+		swap = (t_swap *)temp->content;
+		if (swap->is_cheapest && swap->is_above_median)
+			//HERE
+		if (swap->is_cheapest && swap->is_above_median)
+
+		temp = temp->next;
+	}
+}
+
+void	do_operations_b(t_stack *a, t_stack *b)
 {
 	
 }
 
-void	sort_stack(t_stack *a, t_stack *b)
+void	find_cheapest(t_stack *a, t_stack *b)
 {
-	t_list	*cheapest;
-	while (a->count > 3)
+	
+}
+
+void	find_target_b(t_swap *val, t_stack *a)
+{
+	t_list	*temp;
+	t_swap	*swap;
+
+	temp = a->values;
+	val->target = find_min(a);
+	while (temp != NULL)
 	{
-		cheapest = find_cheapest(a, b);
-		apply_operations(a, b, cheapest);
+		swap = (t_swap *)temp->content;
+		if (val->nbr < swap->nbr)
+			val->target = temp;
+		temp = temp->next;
+	}
+}
+
+void	prepare_stack_b(t_stack *a, t_stack *b)
+{
+	t_list	*temp;
+	t_swap	*swap;
+	int		i;
+
+	i = b->count - 1;
+	temp = b->values;
+	while (temp != NULL)
+	{
+		swap = (t_swap *)temp->content;
+		swap->index = i--;
+		if (swap->index < b->count / 2)
+			swap->is_above_median = false;
+		else
+			swap->is_above_median = true;
+		find_target_b(swap, a);
+		temp = temp->next;
+	}
+}
+
+void	send_back(t_stack *a, t_stack *b)
+{
+	while (b->count > 0)
+	{
+		prepare_stack_b(a, b);
 	}
 	
+}
+
+void	find_target_a(t_swap *val, t_stack *b)
+{
+	t_list	*temp;
+	t_swap	*swap;
+
+	temp = b->values;
+	val->target = find_max(b);
+	while (temp != NULL)
+	{
+		swap = (t_swap *)temp->content;
+		if (val->nbr > swap->nbr)
+			val->target = temp;
+		temp = temp->next;
+	}
+}
+
+void	prepare_stack_a(t_stack *a, t_stack *b)
+{
+	t_list	*temp;
+	t_swap	*swap;
+	int		i;
+
+	i = a->count - 1;
+	temp = a->values;
+	while (temp != NULL)
+	{
+		swap = (t_swap *)temp->content;
+		swap->index = i--;
+		if (swap->index < a->count / 2)
+			swap->is_above_median = false;
+		else
+			swap->is_above_median = true;
+		find_target_a(swap, b);
+		temp = temp->next;
+	}
 }
 
 void	init(int argc, char **argv, t_stack *a, t_stack *b)
@@ -91,25 +185,28 @@ void	init(int argc, char **argv, t_stack *a, t_stack *b)
 	b = ft_stacknew();
 }
 
+void	sort_stack(t_stack *a, t_stack *b)
+{
+	while (a->count > 3)
+	{
+		prepare_stack_a(a, b);
+		find_cheapest(a, b);
+		do_operations_a(a, b);
+	}
+	if (!ft_lstissorted(a->values, int_comp))
+		sort_three(a);
+	send_back(a, b);
+}
+
 void	first_checks(t_stack *a, t_stack *b)
 {
+	if (a->count > 3 && ft_lstissorted(a->values, int_comp))
+		pb(a, b);
+	if (a->count > 3 && ft_lstissorted(a->values, int_comp))
+		pb(a, b);
 	if (ft_lstissorted(a->values, int_comp))
-		return;
-	if (a->count == 2)
-		ra(a);
-	if (a->count == 3)
-		sort_three(a);
-	if (a->count == 4)
-	{
-		pb(a, b);
-		sort_stack(a, b);
-	}
-	else
-	{
-		pb(a, b);
-		pb(a, b);
-		sort_stack(a, b);
-	}
+		return ;
+	sort_stack(a, b);
 }
 
 int	main(int argc, char **argv)
@@ -118,6 +215,7 @@ int	main(int argc, char **argv)
 	t_stack	*b;
 
 	init(argc, argv, a, b);
+	first_checks(a, b);
 	ft_lstsort(&a->values, int_comp);
 	ft_lstiter(a->values, printf_int);
 	if (ft_lstissorted(a->values, int_comp))
