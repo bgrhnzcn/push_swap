@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:24:06 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/03/27 05:00:53 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:44:24 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,52 @@ void	do_operations_a(t_stack *a, t_stack *b)
 	t_list	*temp;
 	t_swap	*swap;
 
-	temp = b->values;
+	temp = a->values;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
 		if (swap->is_cheapest && swap->is_above_median)
-			//HERE
+			while(a->values->content != swap)
+				ra(a);
 		if (swap->is_cheapest && swap->is_above_median)
-
+			while(a->values->content != swap)
+				rra(a);
+		pb(a, b);
 		temp = temp->next;
 	}
 }
 
 void	do_operations_b(t_stack *a, t_stack *b)
 {
-	
+	t_list	*temp;
+	t_swap	*swap;
+
+	temp = a->values;
+	while (temp != NULL)
+	{
+		swap = (t_swap *)temp->content;
+		if (swap->is_cheapest && swap->is_above_median)
+			while(a->values->content != swap)
+				ra(a);
+		if (swap->is_cheapest && swap->is_above_median)
+			while(a->values->content != swap)
+				rra(a);
+		pb(a, b);
+		temp = temp->next;
+	}
 }
 
 void	find_cheapest(t_stack *a, t_stack *b)
 {
+	t_swap	*swap;
+	t_list	*temp;
+
+	temp = a->values;
+	while (temp != NULL)
+	{
+		swap = (t_swap *)temp->content;
+		
+	}
 	
 }
 
@@ -167,7 +194,7 @@ void	prepare_stack_a(t_stack *a, t_stack *b)
 	}
 }
 
-void	init(int argc, char **argv, t_stack *a, t_stack *b)
+void	init(int argc, char **argv, t_stack *a, t_stack **b)
 {
 	if (argc <= 1)
 	{
@@ -182,7 +209,7 @@ void	init(int argc, char **argv, t_stack *a, t_stack *b)
 		free(a);
 		exit(EXIT_FAILURE);
 	}
-	b = ft_stacknew();
+	*b = ft_stacknew();
 }
 
 void	sort_stack(t_stack *a, t_stack *b)
@@ -214,7 +241,7 @@ int	main(int argc, char **argv)
 	t_stack	*a;
 	t_stack	*b;
 
-	init(argc, argv, a, b);
+	init(argc, argv, a, &b);
 	first_checks(a, b);
 	ft_lstsort(&a->values, int_comp);
 	ft_lstiter(a->values, printf_int);
