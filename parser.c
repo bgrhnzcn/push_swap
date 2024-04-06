@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/04 19:30:18 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/04/06 17:15:31 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_duplicate(t_stack *stack, long value)
 {
 	t_list	*temp;
 
-	temp = stack->values;
+	temp = stack->top;
 	while (temp != NULL)
 	{
 		if (((t_swap *)(temp->content))->nbr == value)

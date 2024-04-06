@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:34:50 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/30 03:08:16 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:48:04 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_list
 typedef struct s_stack
 {
 	int	count;
-	t_list	*values;
+	t_list	*top;
 }	t_stack;
 
 typedef struct s_map

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:24:06 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/04 17:44:24 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/04/06 22:55:48 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_list	*find_max(t_stack *stack)
 	t_list	*max;
 	t_list	*temp;
 
-	max = stack->values;
-	temp = stack->values;
+	max = stack->top;
+	temp = stack->top;
 	while (temp != NULL)
 	{
 		if (*(long *)temp->content > *(long *)max->content)
@@ -33,8 +33,8 @@ t_list	*find_min(t_stack *stack)
 	t_list	*min;
 	t_list	*temp;
 
-	min = stack->values;
-	temp = stack->values;
+	min = stack->top;
+	temp = stack->top;
 	while (temp != NULL)
 	{
 		if (*(long *)temp->content < *(long *)min->content)
@@ -49,11 +49,11 @@ void	sort_three(t_stack *stack)
 	t_list	*biggest;
 
 	biggest = find_max(stack);
-	if (biggest == stack->values)
+	if (biggest == stack->top)
 		ra(stack);
-	else if (biggest == stack->values->next)
+	else if (biggest == stack->top->next)
 		rra(stack);
-	if (!ft_lstissorted(stack->values, int_comp))
+	if (!ft_lstissorted(stack->top, int_comp))
 		sa(stack);
 }
 
@@ -62,15 +62,15 @@ void	do_operations_a(t_stack *a, t_stack *b)
 	t_list	*temp;
 	t_swap	*swap;
 
-	temp = a->values;
+	temp = a->top;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
 		if (swap->is_cheapest && swap->is_above_median)
-			while(a->values->content != swap)
+			while (a->top->content != swap)
 				ra(a);
 		if (swap->is_cheapest && swap->is_above_median)
-			while(a->values->content != swap)
+			while (a->top->content != swap)
 				rra(a);
 		pb(a, b);
 		temp = temp->next;
@@ -82,33 +82,54 @@ void	do_operations_b(t_stack *a, t_stack *b)
 	t_list	*temp;
 	t_swap	*swap;
 
-	temp = a->values;
+	temp = a->top;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
 		if (swap->is_cheapest && swap->is_above_median)
-			while(a->values->content != swap)
+			while (a->top->content != swap)
 				ra(a);
 		if (swap->is_cheapest && swap->is_above_median)
-			while(a->values->content != swap)
+			while (a->top->content != swap)
 				rra(a);
 		pb(a, b);
 		temp = temp->next;
 	}
 }
 
+void	swap_cheapest(t_swap *swap, t_swap *min)
+{
+	swap->is_cheapest = true;
+	min->is_cheapest = false;
+}
+
 void	find_cheapest(t_stack *a, t_stack *b)
 {
 	t_swap	*swap;
+	t_swap	*target;
 	t_list	*temp;
+	t_swap	*min;
 
-	temp = a->values;
+	temp = a->top;
+	min = (t_swap *)temp->content;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
-		
+		target = (t_swap *)swap->target;
+		if (swap->is_above_median)
+			swap->cost = a->count - swap->index;
+		else
+			swap->cost = swap->index + 2;
+		if (target->is_above_median)
+			swap->cost += b->count - target->index - 1;
+		else
+			swap->cost += target->index + 1;
+		if (swap->cost < min->cost)
+		{
+			swap_cheapest(swap, min);
+			min = swap;
+		}
 	}
-	
 }
 
 void	find_target_b(t_swap *val, t_stack *a)
@@ -116,7 +137,7 @@ void	find_target_b(t_swap *val, t_stack *a)
 	t_list	*temp;
 	t_swap	*swap;
 
-	temp = a->values;
+	temp = a->top;
 	val->target = find_min(a);
 	while (temp != NULL)
 	{
@@ -134,7 +155,7 @@ void	prepare_stack_b(t_stack *a, t_stack *b)
 	int		i;
 
 	i = b->count - 1;
-	temp = b->values;
+	temp = b->top;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
@@ -162,7 +183,7 @@ void	find_target_a(t_swap *val, t_stack *b)
 	t_list	*temp;
 	t_swap	*swap;
 
-	temp = b->values;
+	temp = b->top;
 	val->target = find_max(b);
 	while (temp != NULL)
 	{
@@ -180,10 +201,11 @@ void	prepare_stack_a(t_stack *a, t_stack *b)
 	int		i;
 
 	i = a->count - 1;
-	temp = a->values;
+	temp = a->top;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
+		swap->is_cheapest = false;
 		swap->index = i--;
 		if (swap->index < a->count / 2)
 			swap->is_above_median = false;
@@ -205,7 +227,7 @@ void	init(int argc, char **argv, t_stack *a, t_stack **b)
 	if (parse_data(a, argv, argc))
 	{
 		ft_putstr_fd("Error\n", 2);
-		ft_lstclear(&a->values, free);
+		ft_lstclear(&a->top, free);
 		free(a);
 		exit(EXIT_FAILURE);
 	}
@@ -220,18 +242,18 @@ void	sort_stack(t_stack *a, t_stack *b)
 		find_cheapest(a, b);
 		do_operations_a(a, b);
 	}
-	if (!ft_lstissorted(a->values, int_comp))
+	if (!ft_lstissorted(a->top, int_comp))
 		sort_three(a);
 	send_back(a, b);
 }
 
 void	first_checks(t_stack *a, t_stack *b)
 {
-	if (a->count > 3 && ft_lstissorted(a->values, int_comp))
+	if (a->count > 3 && ft_lstissorted(a->top, int_comp))
 		pb(a, b);
-	if (a->count > 3 && ft_lstissorted(a->values, int_comp))
+	if (a->count > 3 && ft_lstissorted(a->top, int_comp))
 		pb(a, b);
-	if (ft_lstissorted(a->values, int_comp))
+	if (ft_lstissorted(a->top, int_comp))
 		return ;
 	sort_stack(a, b);
 }
@@ -243,9 +265,9 @@ int	main(int argc, char **argv)
 
 	init(argc, argv, a, &b);
 	first_checks(a, b);
-	ft_lstsort(&a->values, int_comp);
-	ft_lstiter(a->values, printf_int);
-	if (ft_lstissorted(a->values, int_comp))
+	ft_lstsort(&a->top, int_comp);
+	ft_lstiter(a->top, printf_int);
+	if (ft_lstissorted(a->top, int_comp))
 		ft_printf("Sirali");
 	else
 		ft_printf("sirasiz");
