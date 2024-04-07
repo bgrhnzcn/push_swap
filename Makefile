@@ -1,4 +1,5 @@
-SRCS = main.c
+SRCS = main.c iterators.c parser.c pushes.c reverse_rotates.c rotates.c \
+	swaps.c target.c
 
 OBJ = $(SRCS:.c=.o)
 

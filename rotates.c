@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:16:34 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/01/21 22:48:13 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/07 16:22:56 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	ra(t_stack *a)
 	ft_printf("ra\n");
 	if (a->count <= 1)
 		return ;
-	temp = a->values;
-	a->values = temp->next;
+	temp = a->top;
+	a->top = temp->next;
 	temp->next = NULL;
-	ft_lstlast(a->values)->next = temp;
+	ft_lstlast(a->top)->next = temp;
 }
 
 void	rb(t_stack *b)
@@ -32,10 +32,10 @@ void	rb(t_stack *b)
 	ft_printf("rb\n");
 	if (b->count <= 1)
 		return ;
-	temp = b->values;
-	b->values = temp->next;
+	temp = b->top;
+	b->top = temp->next;
 	temp->next = NULL;
-	ft_lstlast(b->values)->next = temp;
+	ft_lstlast(b->top)->next = temp;
 }
 
 void	rr(t_stack *a, t_stack *b)
@@ -45,14 +45,14 @@ void	rr(t_stack *a, t_stack *b)
 	ft_printf("ra\n");
 	if (a->count <= 1)
 		return ;
-	temp = a->values;
-	a->values = temp->next;
+	temp = a->top;
+	a->top = temp->next;
 	temp->next = NULL;
-	ft_lstlast(a->values)->next = temp;
+	ft_lstlast(a->top)->next = temp;
 	if (b->count <= 1)
 		return ;
-	temp = b->values;
-	b->values = temp->next;
+	temp = b->top;
+	b->top = temp->next;
 	temp->next = NULL;
-	ft_lstlast(b->values)->next = temp;
+	ft_lstlast(b->top)->next = temp;
 }

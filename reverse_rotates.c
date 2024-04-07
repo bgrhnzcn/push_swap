@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:48:45 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/03/18 15:25:30 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/07 16:22:54 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	rra(t_stack *a)
 	ft_printf("rra\n");
 	if (a->count <= 1)
 		return ;
-	temp = a->values;
+	temp = a->top;
 	while (temp->next->next != NULL)
 		temp = temp->next;
-	temp->next->next = a->values;
-	a->values = temp->next;
+	temp->next->next = a->top;
+	a->top = temp->next;
 }
 
 void	rrb(t_stack *b)
@@ -33,11 +33,11 @@ void	rrb(t_stack *b)
 	ft_printf("rrb\n");
 	if (b->count <= 1)
 		return ;
-	temp = b->values;
+	temp = b->top;
 	while (temp->next->next != NULL)
 		temp = temp->next;
-	temp->next->next = b->values;
-	b->values = temp->next;
+	temp->next->next = b->top;
+	b->top = temp->next;
 }
 
 void	rrr(t_stack *a, t_stack *b)
@@ -47,16 +47,16 @@ void	rrr(t_stack *a, t_stack *b)
 	ft_printf("rrr\n");
 	if (a->count <= 1)
 		return ;
-	temp = a->values;
+	temp = a->top;
 	while (temp->next->next != NULL)
 		temp = temp->next;
-	temp->next->next = a->values;
-	a->values = temp->next;
+	temp->next->next = a->top;
+	a->top = temp->next;
 	if (b->count <= 1)
 		return ;
-	temp = b->values;
+	temp = b->top;
 	while (temp->next->next != NULL)
 		temp = temp->next;
-	temp->next->next = b->values;
-	b->values = temp->next;
+	temp->next->next = b->top;
+	b->top = temp->next;
 }

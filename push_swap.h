@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:26:48 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/04 19:30:19 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:22:03 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ typedef struct s_swap
 	t_list	*target;
 }	t_swap;
 
-void	printf_int(void *integer);
-t_bool	int_comp(void *curr, void *next);
+void	printf_t_swap(void *integer);
+void	printf_target(void *integer);
+t_bool	t_swap_comp(void *curr, void *next);
+t_list	*find_min(t_stack *stack);
+t_list	*find_max(t_stack *stack);
 int		parse_data(t_stack *stack, char **argv, int argc);
+void	find_target_a(t_swap *val, t_stack *b);
+void	find_target_b(t_swap *val, t_stack *a);
 
 void	pa(t_stack *b, t_stack *a);
 void	pb(t_stack *a, t_stack *b);
