@@ -6,29 +6,24 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:24:06 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/07 20:22:42 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/14 02:46:03 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sort_three(t_stack *stack)
+void	do_opr_both(t_swap *swap, t_swap *target, t_stack *a, t_stack *b)
 {
-	t_list	*biggest;
-
-	biggest = find_max(stack);
-	if (biggest == stack->top)
-		ra(stack);
-	else if (biggest == stack->top->next)
-		rra(stack);
-	if (!ft_lstissorted(stack->top, t_swap_comp))
-		sa(stack);
-}
-
-void	do_operation_a_helper(t_swap *target, t_stack *b)
-{
-	while (target != b->top->content)
+	if (swap->is_above_median && target->is_above_median)
+		rr(a, b);
+	else if (!swap->is_above_median && !target->is_above_median)
+		rrr(a, b);
+	else
 	{
+		if (swap->is_above_median)
+			ra(a);
+		else
+			rra(a);
 		if (target->is_above_median)
 			rb(b);
 		else
@@ -36,29 +31,46 @@ void	do_operation_a_helper(t_swap *target, t_stack *b)
 	}
 }
 
+void	do_opr_hlpr(t_swap *swap, t_swap *target, t_stack *a, t_stack *b)
+{
+	if (swap == (t_swap *)a->top->content)
+	{
+		if (target == (t_swap *)b->top->content)
+			return ;
+		else
+			if (target->is_above_median)
+				rb(b);
+			else
+				rrb(b);
+	}
+	else if (target == (t_swap *)b->top->content)
+	{
+		if (swap == (t_swap *)a->top->content)
+			return ;
+		else
+			if (swap->is_above_median)
+				ra(a);
+			else
+				rra(a);
+	}
+	else
+		do_opr_both(swap, target, a, b);
+}
+
 void	do_operations_a(t_stack *a, t_stack *b)
 {
 	t_list	*temp;
-	t_list	*target;
+	t_swap	*target;
 	t_swap	*swap;
 
 	temp = a->top;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
+		target = (t_swap *)swap->target->content;
 		if (swap->is_cheapest)
-		{
-			target = swap->target;
-			while (swap != a->top->content)
-			{
-				if (swap->is_above_median)
-					ra(a);
-				else
-					rra(a);
-			}
-			do_operation_a_helper(target->content, b);
-			break ;
-		}
+		while (swap != a->top->content || target != b->top->content)
+			do_opr_hlpr(swap, target, a, b);
 		temp = temp->next;
 	}
 	pb(a, b);
@@ -76,20 +88,21 @@ void	do_operations_b(t_stack *a, t_stack *b)
 		if (swap->is_above_median)
 			while (a->top->content != swap)
 				ra(a);
-		if (swap->is_above_median)
+		else
 			while (a->top->content != swap)
 				rra(a);
 	}
 	pa(b, a);
 }
 
-void	swap_cheapest(t_swap *swap, t_swap *min)
+void	swap_cheapest(t_swap *swap, t_swap **min)
 {
 	swap->is_cheapest = true;
-	min->is_cheapest = false;
+	(*min)->is_cheapest = false;
+	*min = swap;
 }
 
-void	find_cheapest(t_stack *from, t_stack *to)
+void	find_cheapest(t_stack *from)
 {
 	t_swap	*swap;
 	t_swap	*target;
@@ -98,69 +111,74 @@ void	find_cheapest(t_stack *from, t_stack *to)
 
 	temp = from->top;
 	min = (t_swap *)temp->content;
+	min->is_cheapest = true;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
-		target = (t_swap *)swap->target;
+		target = (t_swap *)swap->target->content;
 		if (swap->is_above_median)
-			swap->cost = from->count - swap->index;
+			swap->cost = swap->index;
 		else
 			swap->cost = swap->index + 2;
 		if (target->is_above_median)
-			swap->cost += to->count - target->index - 1;
+			swap->cost += target->index;
 		else
 			swap->cost += target->index + 1;
+		swap->cost++;
 		if (swap->cost < min->cost)
-		{
-			swap_cheapest(swap, min);
-			min = swap;
-		}
+			swap_cheapest(swap, &min);
 		temp = temp->next;
 	}
 }
 
-void	prepare_stack_b(t_stack *a, t_stack *b)
+void	prepare_is_above(t_stack *stack)
 {
 	t_list	*temp;
 	t_swap	*swap;
 	int		i;
 
-	i = b->count - 1;
-	temp = b->top;
+	i = 0;
+	temp = stack->top;
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
+		swap->index = i++;
 		swap->is_cheapest = false;
-		swap->index = i--;
-		if (swap->index < b->count / 2)
-			swap->is_above_median = false;
-		else
+		if (swap->index + 1 <= stack->count / 2)
 			swap->is_above_median = true;
-		find_target_b(swap, a);
+		else
+			swap->is_above_median = false;
 		temp = temp->next;
 	}
 }
 
-void	prepare_stack_a(t_stack *a, t_stack *b)
+void	prepare_stack(t_stack *from, t_stack *to, void (*find_target)(t_swap *val, t_stack *to))
 {
 	t_list	*temp;
 	t_swap	*swap;
-	int		i;
 
-	i = a->count - 1;
-	temp = a->top;
+	temp = from->top;
+	prepare_is_above(from);
+	prepare_is_above(to);
 	while (temp != NULL)
 	{
 		swap = (t_swap *)temp->content;
-		swap->is_cheapest = false;
-		swap->index = i--;
-		if (swap->index < a->count / 2)
-			swap->is_above_median = false;
-		else
-			swap->is_above_median = true;
-		find_target_a(swap, b);
+		find_target(swap, to);
 		temp = temp->next;
 	}
+}
+
+void	sort_three(t_stack *stack)
+{
+	t_list	*biggest;
+
+	biggest = find_max(stack);
+	if (biggest == stack->top)
+		ra(stack);
+	else if (biggest == stack->top->next)
+		rra(stack);
+	if (!ft_lstissorted(stack->top, t_swap_comp))
+		sa(stack);
 }
 
 void	init(int argc, char **argv, t_stack **a, t_stack **b)
@@ -184,25 +202,24 @@ void	sort_stack(t_stack *a, t_stack *b)
 {
 	t_list	*min;
 
-	min = find_min(a);
 	while (a->count > 3)
 	{
-		prepare_stack_a(a, b);
-		ft_printf("------------------------\n");
-		ft_lstiter(a->top, printf_target);
-		ft_printf("------------------------\n");
-		find_cheapest(a, b);
+		prepare_stack(a, b, find_target_a);
+		find_cheapest(a);
 		do_operations_a(a, b);
 	}
 	if (!ft_lstissorted(a->top, t_swap_comp))
 		sort_three(a);
 	while (b->count > 0)
 	{
-		prepare_stack_b(a, b);
+		prepare_stack(b, a, find_target_b);
 		do_operations_b(a, b);
 	}
+	prepare_is_above(a);
+	min = find_min(a);
 	while (a->top != min)
 	{
+		
 		if (((t_swap *)min->content)->is_above_median)
 			ra(a);
 		else
@@ -227,14 +244,7 @@ int	main(int argc, char **argv)
 	t_stack	*b;
 
 	init(argc, argv, &a, &b);
-	ft_lstiter(a->top, printf_t_swap);
-	ft_printf("-----------------------\n");
 	first_checks(a, b);
-	ft_lstiter(a->top, printf_t_swap);
-	if (ft_lstissorted(a->top, t_swap_comp))
-		ft_printf("Sirali");
-	else
-		ft_printf("sirasiz");
 	ft_stackclear(a, free);
 	ft_stackclear(b, free);
 }

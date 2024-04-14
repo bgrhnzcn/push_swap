@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:16:34 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/07 16:22:56 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:58:15 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	rr(t_stack *a, t_stack *b)
 {
 	t_list	*temp;
 
-	ft_printf("ra\n");
+	ft_printf("rr\n");
 	if (a->count <= 1)
 		return ;
 	temp = a->top;

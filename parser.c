@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/07 19:59:36 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/14 03:02:25 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	parse_data(t_stack *stack, char **argv, int argc)
 			ft_free_str_arr(splitted);
 			return (true);
 		}
+		ft_free_str_arr(argv);
 		return (false);
 	}
 	if (input(stack, argv + 1))

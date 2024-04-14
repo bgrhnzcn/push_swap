@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:48:45 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/07 16:22:54 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:58:22 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	rra(t_stack *a)
 		temp = temp->next;
 	temp->next->next = a->top;
 	a->top = temp->next;
+	temp->next = NULL;
 }
 
 void	rrb(t_stack *b)
@@ -38,6 +39,7 @@ void	rrb(t_stack *b)
 		temp = temp->next;
 	temp->next->next = b->top;
 	b->top = temp->next;
+	temp->next = NULL;
 }
 
 void	rrr(t_stack *a, t_stack *b)
@@ -52,6 +54,7 @@ void	rrr(t_stack *a, t_stack *b)
 		temp = temp->next;
 	temp->next->next = a->top;
 	a->top = temp->next;
+	temp->next = NULL;
 	if (b->count <= 1)
 		return ;
 	temp = b->top;
@@ -59,4 +62,5 @@ void	rrr(t_stack *a, t_stack *b)
 		temp = temp->next;
 	temp->next->next = b->top;
 	b->top = temp->next;
+	temp->next = NULL;
 }
