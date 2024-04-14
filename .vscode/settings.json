@@ -2,7 +2,9 @@
   "files.associations": {
     "ft_printf.h": "c",
     "push_swap.h": "c",
-    "random": "c"
+    "random": "c",
+    "algorithm": "c",
+    "*.tcc": "c"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
