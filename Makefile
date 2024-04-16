@@ -1,5 +1,5 @@
 SRCS = main.c iterators.c parser.c pushes.c reverse_rotates.c rotates.c \
-	swaps.c target.c
+	swaps.c target.c sorting.c do_operations.c ft_atol.c
 
 OBJ = $(SRCS:.c=.o)
 
@@ -9,16 +9,19 @@ CC = gcc
 
 CFLAGS = -g -Wall -Werror -Wextra
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $(SRCS) -Ilibft -Ift_printf $<
+LIBFT = libft/libft.a
+
+LIBFTPRINTF = ft_printf/libftprintf.a
 
 all: $(NAME)
 
-$(NAME): libs $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) libft/libft.a ft_printf/libftprintf.a
+$(NAME): $(OBJ) $(LIBFT) $(LIBFTPRINTF)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIBFTPRINTF)
 
-libs:
+$(LIBFT):
 	cd libft && make
+
+$(LIBFTPRINTF):
 	cd ft_printf && make
 
 clean:

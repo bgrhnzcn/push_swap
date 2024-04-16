@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:26:48 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/14 02:35:01 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:03:27 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ t_list	*find_max(t_stack *stack);
 int		parse_data(t_stack *stack, char **argv, int argc);
 void	find_target_a(t_swap *val, t_stack *b);
 void	find_target_b(t_swap *val, t_stack *a);
+void	do_operations_b(t_stack *a, t_stack *b);
+void	do_operations_a(t_stack *a, t_stack *b);
+void	swap_cheapest(t_swap *swap, t_swap **min);
+void	sort_stack(t_stack *a, t_stack *b);
+long	ft_atol(const char *str);
 
 void	pa(t_stack *b, t_stack *a);
 void	pb(t_stack *a, t_stack *b);

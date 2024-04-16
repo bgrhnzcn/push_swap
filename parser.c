@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/14 03:02:25 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:02:56 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static long	input(t_stack *stack, char **argv)
 		value = malloc(sizeof (t_swap));
 		if (value == NULL)
 			return (true);
-		value->nbr = ft_atoi(argv[i]);
-		if (check_duplicate(stack, value->nbr))
+		value->nbr = ft_atol(argv[i]);
+		if (check_duplicate(stack, value->nbr) || value->nbr > __INT_MAX__)
 		{
 			free(value);
 			return (true);
@@ -70,7 +70,6 @@ int	parse_data(t_stack *stack, char **argv, int argc)
 			ft_free_str_arr(splitted);
 			return (true);
 		}
-		ft_free_str_arr(argv);
 		return (false);
 	}
 	if (input(stack, argv + 1))
