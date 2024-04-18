@@ -8,7 +8,11 @@ while [ $i -lt $2 ]
 do
 	((i++))
 	ARGS=$(python3 rnd_list_gen.py $1)
-	res=$(./push_swap $ARGS | ./checker_linux $ARGS)
+	if [ "Linux" = "$(uname)" ]; then
+		res=$(./push_swap $ARGS | ./checker_linux $ARGS)
+	else
+		res=$(./push_swap $ARGS | ./checker_Mac $ARGS)
+	fi
 	if [ "$res" = "KO" ]; then
 		echo "$res"
 		echo "----"
