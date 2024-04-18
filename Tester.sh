@@ -1,3 +1,7 @@
+if ! test -f ./push_swap; then
+	make re
+	make clean
+fi
 i=0
 total=0
 while [ $i -lt $2 ]
