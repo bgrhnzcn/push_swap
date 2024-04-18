@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/16 17:02:56 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:42:05 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,37 @@ static long	input(t_stack *stack, char **argv)
 	while (i >= 0)
 	{
 		if (!ft_strcheck(argv[i], check_character))
-			return (true);
+			return (false);
 		value = malloc(sizeof (t_swap));
 		if (value == NULL)
-			return (true);
+			return (false);
 		value->nbr = ft_atol(argv[i]);
 		if (check_duplicate(stack, value->nbr) || value->nbr > __INT_MAX__)
 		{
 			free(value);
-			return (true);
+			return (false);
 		}
 		ft_stackpush(stack, value);
 		i--;
 	}
-	return (false);
+	return (true);
 }
 
 int	parse_data(t_stack *stack, char **argv, int argc)
 {
 	char	**splitted;
+	int		i;
 
-	if (argc == 2)
+	i = argc - 1;
+	while (i > 0)
 	{
-		splitted = ft_split(argv[1], ' ');
-		if (input(stack, splitted))
+		splitted = ft_split(argv[i], ' ');
+		if (!input(stack, splitted))
 		{
 			ft_free_str_arr(splitted);
 			return (true);
 		}
-		return (false);
+		i--;
 	}
-	if (input(stack, argv + 1))
-		return (true);
 	return (false);
 }
