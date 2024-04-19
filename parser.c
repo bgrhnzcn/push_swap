@@ -3,20 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/18 15:42:05 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/04/19 12:49:09 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static t_bool	check_character(int c)
+static t_bool	is_input_correct(char *str)
 {
-	if (ft_isdigit(c) || c == '+' || c == '-')
-		return (true);
-	return (false);
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (i == 0)
+		{
+			if (!(str[i] == '+' || str[i] == '-' || ft_isdigit(str[i])))
+				return (false);
+		}
+		else if (!ft_isdigit(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 static int	check_duplicate(t_stack *stack, long value)
@@ -41,7 +53,7 @@ static long	input(t_stack *stack, char **argv)
 	i = ft_strarrlen(argv) - 1;
 	while (i >= 0)
 	{
-		if (!ft_strcheck(argv[i], check_character))
+		if (!is_input_correct(argv[i]))
 			return (false);
 		value = malloc(sizeof (t_swap));
 		if (value == NULL)
@@ -72,6 +84,8 @@ int	parse_data(t_stack *stack, char **argv, int argc)
 			ft_free_str_arr(splitted);
 			return (true);
 		}
+		else
+			ft_free_str_arr(splitted);
 		i--;
 	}
 	return (false);
