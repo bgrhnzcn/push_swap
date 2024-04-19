@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 17:55:59 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/04/19 12:49:09 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:35:51 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ static t_bool	is_input_correct(char *str)
 			return (false);
 		i++;
 	}
-	return (true);
+	if ((i == 1 && !ft_isdigit(str[i - 1])))
+		return (false);
+	else
+		return (true);
 }
 
 static int	check_duplicate(t_stack *stack, long value)
